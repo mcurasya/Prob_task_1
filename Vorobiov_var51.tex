@@ -1,0 +1,3079 @@
+\documentclass{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+\usepackage{diagbox}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+
+\newcommand*{\vv}[1]{\vec{\mkern0mu#1}}
+\renewcommand{\arraystretch}{1.5}
+\title{Розрахункова робота з теорії імовірностей \\
+ Варіант 51}
+\author{Воробйов Георгій}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	
+	\section{Задача 1}
+	За таблицею розподілу координат дискретного випадкового вектора $\overrightarrow{\xi} = \left(\begin{array}{c}\xi_1 \\ \xi_2 \end{array} \right)$\\
+	\textbf{Знайти}
+	\begin{enumerate}
+		\item ряди розподілу координат $\xi_1$ та $\xi_2$
+		\item Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ відповідно та побудувати графіки цих функцій
+		\item Функцію розподілу $F_{\overrightarrow{\xi}}(x, y)$ випадкового вектора
+		\item Математичні сподівання координат та кореляційну матрицю
+		\item Умовні ряди розподілу для кожної координати
+		\item Умовні математичні сподівання для кожної координати з перевіркою
+    \end{enumerate}
+	Дана таблиця:
+	\begin{center}
+	\begin{tabular}	{|c|c|c|c|c|}
+		\hline
+		\diagbox{$\xi_1$}{$\xi_2$} & -6 & -5 & -4 & -1 \\ \hline
+		0 & 0,15 & 0,04 & 0,02 & 0,1 \\ \hline
+		1 & 0,02 & 0,11 & 0,13 & 0,04 \\ \hline
+		3 & 0,13 & 0,06 & 0,07 & 0,13 \\ \hline
+	\end{tabular}
+	\end{center}
+	\newpage
+	\subsection{Ряди розподілу координат $\xi_1$ та $\xi_2$}
+	
+	Для отримання ряду розподілу відповідних координат вектора $\xi_i$ треба додати елементи у кожному рядку/стовпці.
+	
+	Тоді маємо
+	$$
+	\begin{gathered}
+		P(\xi_1 = 0) = 0,15 + 0,04 + 0,02 + 0,1 = 0,31; \\
+		P(\xi_1 = 1) =  0,02 + 0,11 + 0,13 + 0,04 = 0,3; \\
+		P(\xi_1 = 3) = 0,13 + 0,06 + 0,07 + 0,13 = 0,39; \\
+	\end{gathered}
+	$$
+	\textit{Перевірка:} \\
+	$$0,31 + 0,3 + 0,39 = 1$$
+	тоді ряд розподілу випадкової величини $\xi_1$
+	\vspace{1ex}
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		$\xi_1$ & 0 & 1 & 3 \\ \hline
+		& 0,31 & 0,3 & 0,39 \\ \hline
+	\end{tabular} 
+	\end{center}
+	
+	Аналогічно даний ряд будується і для вектора $\xi_2$
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			$\xi_2$ & -6 & -5 & -4 & -1 \\ \hline
+			& 0,3 & 0,21 & 0,22 & 0,27 \\ \hline
+		\end{tabular} 
+	\end{center}
+	\textit{Перевірка:} \\
+	$$ 0,3 + 0,21 + 0,22 + 0,27 = 1$$
+	
+	\subsection{Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(x)$}
+	За допомогою ряду розподілу та означенню $F_{\xi}(x)$ побудуємо функцію розподілу для $\xi_1 \text{ та } \xi_2$
+	
+	$$F_{\xi}(x) = P \{\xi < x\} = \sum_{i<x}p_i$$
+	
+	Тоді ми маємо наступне
+	
+	$$
+	F_{\xi_1}(x) =
+	\begin{cases}
+		0 & x\in\left(-\infty, 0\right] \\
+		0,31 & x\in\left(0, 1\right] \\
+		0,61 & x\in\left(1, 3\right] \\
+		1 & x\in\left(3, \infty\right)
+	\end{cases}
+	$$
+	
+	Аналогічно розрахуємо функцію розподілу для $\xi_2$
+	
+		$$
+	F_{\xi_2}(x) =
+	\begin{cases}
+		0 & x\in \left( -\infty, -6 \right] \\
+		0,3 & x\in \left( -6, -5\right] \\
+		0,51 & x \in \left( -5, -4 \right] \\
+		0,73 & x \in \left( -4, -1 \right] \\
+		1 & x \in \left( -1, \infty \right) \\
+	\end{cases}
+	$$
+	Графіки даних функцій приведені нижче:\\
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=300,
+			ymin=-0.1,
+			ymax=1.1,
+			axis lines = center, 
+			xlabel=$x$, 
+			ylabel=$F_{\xi_1}(x)$, 
+			ytick={0, 0.31, 0.61, 1},
+			xmajorgrids=true,
+			ymajorgrids=true,
+			grid style=dashed,
+			]
+				\addplot[domain=-1:0,ultra thick, color=blue] {0};
+				\addplot[domain=0:1, ultra thick, color=blue, <-] {0.31};
+				\addplot[domain=1:3, ultra thick, color=blue, <-] {0.61};
+				\addplot[domain=3:4, ultra thick, color=blue, <-] {1};
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width=300,
+				ymin=-0.1,
+				ymax=1.1,
+				axis lines = center, 
+				xlabel=$x$, 
+				ylabel=$F_{\xi_2}(x)$, 
+				ytick={0, 0.3, 0.51, 0.73, 1},
+				xmajorgrids=true,
+				ymajorgrids=true,
+				grid style=dashed,
+				xtick distance=1,
+				]
+				\addplot[domain=-7:-6,ultra thick, color=blue] {0};
+				\addplot[domain=-6:-5, ultra thick, color=blue, <-] {0.3};
+				\addplot[domain=-5:-4, ultra thick, color=blue, <-] {0.51};
+				\addplot[domain=-4:-1, ultra thick, color=blue, <-] {0.73};
+				\addplot[domain=-1:1, ultra thick, color=blue, <-] {1};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center} 
+	\newpage
+	\subsection{Функція розподілу випадкового вектора}
+	
+	Намалюємо точки на площині:
+	\\
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 400,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -6)
+					(0, -5)
+					(0, -4)
+					(0, -1)
+					(1, -6)
+					(1, -5)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+			};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	Розглянемо кожну область окремо
+	\newpage
+	\begin{enumerate}
+		\item $(x\leq0)\vee(y\leq-6)$ \\
+		$F_{\overrightarrow{\xi}}(x, y)=0$
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -6)
+					(0, -5)
+					(0, -4)
+					(0, -1)
+					(1, -6)
+					(1, -5)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+			\addplot[red, ultra thick, domain=-8:-2] (-2, x);
+			\addplot[red, ultra thick, domain=-8:-2] (x, -2);
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	
+	\newpage
+	\item $(0 < x \leq 1) \wedge (-6<y \leq -5)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} = 0,15$
+	
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(0, -5)
+				(0, -4)
+				(0, -1)
+				(1, -6)
+				(1, -5)
+				(1, -4)
+				(1, -1)
+				(3, -6)
+				(3, -5)
+				(3, -4)
+				(3, -1)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(0, -6)
+			};
+			\addplot[red, ultra thick, domain=-8:-5.5] (0.5, x);
+			\addplot[red, ultra thick, domain=-8:0.5] (x, -5.5);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( 0 < x \leq 1 ) \wedge (-5 < y \leq -4)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=0, \xi_2=-5\} = 0,19$
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -4)
+					(0, -1)
+					(1, -6)
+					(1, -5)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=green},
+				mark size = 3pt,
+				] coordinates {
+					(0, -5)
+					(0, -6)
+				};
+				\addplot[red, ultra thick, domain=-8:-4.5] (0.5, x);
+				\addplot[red, ultra thick, domain=-8:0.5] (x, -4.5);
+			\end{axis}
+		\end{tikzpicture}
+		\end{center}
+		\newpage
+		\item $( 0 < x \leq 1 ) \wedge (-4 < y \leq -1)$ \\
+		$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=0, \xi_2=-5\} = 0,21$
+	
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -1)
+					(1, -6)
+					(1, -5)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=green},
+				mark size = 3pt,
+				] coordinates {
+					(0, -4)
+					(0, -5)
+					(0, -6)
+				};
+				\addplot[red, ultra thick, domain=-8:-3.5] (0.5, x);
+				\addplot[red, ultra thick, domain=-8:0.5] (x, -3.5);
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+	\newpage
+	\item $( 0 < x \leq 1 ) \wedge (y > -1)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=0, \xi_2=-5\} + P\{\xi_1=0, \xi_2=-1\} = 0,31$
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -1)
+					(1, -6)
+					(1, -5)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=green},
+				mark size = 3pt,
+				] coordinates {
+					(0, -1)
+					(0, -4)
+					(0, -5)
+					(0, -6)
+				};
+				\addplot[red, ultra thick, domain=-8:1] (0.5, x);
+				\addplot[red, ultra thick, domain=-8:0.5] (x, 1);
+			\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( 1 < x \leq 3 ) \wedge (-6 < y \leq -5)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} = 0,17$
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(0, -5)
+				(0, -4)
+				(0, -1)
+				(1, -5)
+				(1, -4)
+				(1, -1)
+				(3, -6)
+				(3, -5)
+				(3, -4)
+				(3, -1)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(0, -6)
+				(1, -6)
+				
+			};
+			\addplot[red, ultra thick, domain=-8:-5.5] (2, x);
+			\addplot[red, ultra thick, domain=-8:2] (x, -5.5);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+
+	\newpage
+	\item $( x > 3 ) \wedge (-6 < y \leq -5)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=3, \xi_2=-6\} = 0,3$
+	
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(0, -5)
+				(0, -4)
+				(0, -1)
+				(1, -5)
+				(1, -4)
+				(1, -1)
+				(3, -5)
+				(3, -4)
+				(3, -1)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(0, -6)
+				(1, -6)
+				(3, -6)
+			};
+			\addplot[red, ultra thick, domain=-8:-5.5] (4, x);
+			\addplot[red, ultra thick, domain=-8:4] (x, -5.5);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( 1 < x \leq 3 ) \wedge (-5 < y \leq -4)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=1, \xi_2=-5\} = 0,32$
+	
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -4)
+					(0, -1)
+					(1, -4)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=green},
+				mark size = 3pt,
+				] coordinates {
+					(0, -6)
+					(1, -6)
+					(0, -5)
+					(1, -5)
+				};
+				\addplot[red, ultra thick, domain=-8:-4.5] (2, x);
+				\addplot[red, ultra thick, domain=-8:2] (x, -4.5);
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( 1 < x \leq 3 ) \wedge (-4 < y \leq -1)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=1, \xi_2=-5\} + P\{\xi_1=0, \xi_2=-4\} + P\{\xi_1=1, \xi_2=-4\} = 0,47$
+		\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 350,
+				ymin=-7,
+				ymax=7,
+				xmin=-5,
+				xmax=5,
+				ytick distance=1,
+				axis lines= center,
+				xlabel = $x$,
+				ylabel= $y$,
+				]
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=blue},
+				mark size = 3pt,
+				] coordinates {
+					(0, -1)
+					(1, -1)
+					(3, -6)
+					(3, -5)
+					(3, -4)
+					(3, -1)
+				};
+				\addplot[
+				only marks,
+				mark = *,
+				mark options={fill=green},
+				mark size = 3pt,
+				] coordinates {
+					(1, -4)
+					(0, -4)
+					(0, -6)
+					(1, -6)
+					(0, -5)
+					(1, -5)
+				};
+				\addplot[red, ultra thick, domain=-8:-3] (2, x);
+				\addplot[red, ultra thick, domain=-8:2] (x, -3);
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( 1 < x \leq 3 ) \wedge (y > -1)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=1, \xi_2=-5\} + P\{\xi_1=0, \xi_2=-4\} + P\{\xi_1=1, \xi_2=-4\} + P\{\xi_1=0, \xi_2=-1\} + P\{\xi_1=1, \xi_2=-1\} = 0,61$
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(3, -6)
+				(3, -5)
+				(3, -4)
+				(3, -1)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(1, -1)
+				(0, -1)
+				(1, -4)
+				(0, -4)
+				(0, -6)
+				(1, -6)
+				(0, -5)
+				(1, -5)
+			};
+			\addplot[red, ultra thick, domain=-8:1] (2, x);
+			\addplot[red, ultra thick, domain=-8:2] (x, 1);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item $( x > 3 ) \wedge (-5 < y \leq -4)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=1, \xi_2=-5\} + P\{\xi_1=3, \xi_2=-6\} + P\{\xi_1=3, \xi_2=-5\} = 0,51$
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(3, -4)
+				(3, -1)
+				(1, -1)
+				(0, -1)
+				(1, -4)
+				(0, -4)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(0, -6)
+				(1, -6)
+				(0, -5)
+				(1, -5)
+				(3, -6)
+				(3, -5)
+			};
+			\addplot[red, ultra thick, domain=-8:-4.5] (4, x);
+			\addplot[red, ultra thick, domain=-8:4] (x, -4.5);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item  $( x > 3 ) \wedge (-4 < y \leq -1)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = P\{\xi_1=0, \xi_2=-6\} + P\{\xi_1=1, \xi_2=-6\} +  P\{\xi_1=0, \xi_2=-5\} +  P\{\xi_1=1, \xi_2=-5\} + P\{\xi_1=3, \xi_2=-6\} + P\{\xi_1=3, \xi_2=-5\} + P\{\xi_1=0, \xi_2=-4\} + P\{\xi_1=1, \xi_2=-4\} + P\{\xi_1=3, \xi_2=-4\} = 0,73$
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=blue},
+			mark size = 3pt,
+			] coordinates {
+				(3, -1)
+				(1, -1)
+				(0, -1)
+			};
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(3, -4)
+				(1, -4)
+				(0, -4)
+				(0, -6)
+				(1, -6)
+				(0, -5)
+				(1, -5)
+				(3, -6)
+				(3, -5)
+			};
+			\addplot[red, ultra thick, domain=-8:-3] (4, x);
+			\addplot[red, ultra thick, domain=-8:4] (x, -3);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+	\item  $( x > 3 ) \wedge (-4 < y \leq -1)$ \\
+	$F_{\overrightarrow{\xi}}(x, y) = 1$
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 350,
+			ymin=-7,
+			ymax=7,
+			xmin=-5,
+			xmax=5,
+			ytick distance=1,
+			axis lines= center,
+			xlabel = $x$,
+			ylabel= $y$,
+			]
+			\addplot[
+			only marks,
+			mark = *,
+			mark options={fill=green},
+			mark size = 3pt,
+			] coordinates {
+				(3, -1)
+				(1, -1)
+				(0, -1)
+				(3, -4)
+				(1, -4)
+				(0, -4)
+				(0, -6)
+				(1, -6)
+				(0, -5)
+				(1, -5)
+				(3, -6)
+				(3, -5)
+			};
+			\addplot[red, ultra thick, domain=-8:1] (4, x);
+			\addplot[red, ultra thick, domain=-8:4] (x, 1);
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\end{enumerate}
+	Отримали сумісну функцію розподілу, яку можна записати у вигляді таблиці
+	\begin{center}
+	
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\diagbox{$y$}{$x$} & $x \leq 0$ & $0 < x \leq 1$ & $1 < x \leq 3$ & $x > 3$  \\ \hline 
+		$y \leq -6$ & 0 & 0 & 0 & 0 \\ \hline
+		$-6 < y \leq -5$ & 0 & 0,15 & 0,17 & 0,3 \\ \hline
+		$-5 < y \leq -4$ & 0 & 0,19 & 0,32 & 0,51 \\ \hline
+		$-4 < y \leq -1$ & 0 & 0,21 & 0,47 & 0,73 \\ \hline
+		$ y > -1 $       & 0 & 0,31 & 0,61 & 1 \\ \hline
+	\end{tabular}
+	\end{center}
+	Або:
+	$$F_{\overrightarrow{\xi}}(x, y) = 
+	\begin{cases}
+		0    & (x\leq0) \vee (y\leq-6) \\
+		0,15 & (0 < x \leq 1) \wedge (-6 < y \leq -5) \\
+		0,17 & (1 < x \leq 3) \wedge (-6 < y \leq -5) \\
+		0,3  & (x > 3) \wedge (-6 < y \leq -5) \\
+		0,19 & (0 < x \leq 1) \wedge (-5 < y \leq -4) \\
+		0,32 & (1 < x \leq 3) \wedge (-5 < y \leq -4) \\
+		0,51 & ( x > 3 ) \wedge (-5 < y \leq -4) \\
+		0,21 & (0 < x \leq 1) \wedge (-4 < y \leq -1) \\ 
+		0,47 & (1 < x \leq 3) \wedge (-4 < y \leq -1) \\ 
+		0,73 & (x > 3) \wedge (-4 < y \leq -1) \\ 
+		0,31 & (0 < x \leq 1) \wedge (y > 1) \\ 
+		0,61 & (1 < x \leq 3) \wedge (y > 1) \\ 
+		1    & (x > 1) \wedge (y > 1) \\
+		
+	\end{cases}
+	$$
+	\newpage
+	\subsection{Математичні сподівання координат та кореляційна матрицю}
+	Знаючи маргінальні ряди розподілу знайдемо математичні сподівання за означенням:
+	$$\mathbb{E}\xi_1 = \sum_{i=1}^{n}x_ip_i = 1 * 0,3 + 3 * 0,39 = 1,47$$
+	$$\mathbb{E}\xi_2 = \sum_{i=1}^{n}x_ip_i = -6 * 0,3 - 5 * 0,21 - 4 * 0,22 - 1 * 0,27=-4$$
+	Тепер порахуємо дисперсії та коваріації для даного розподілу:
+	$$\mathbb{E}\xi_1^2 = 3,81$$	
+	$$\mathbb{E}\xi_2^2 = 19,84$$
+	$$\mathbb{D}\xi_1 = \mathbb{E}\xi_1^2 - (\mathbb{E}\xi_1)^2 = 1,6491$$
+	$$\mathbb{D}\xi_2 = \mathbb{E}\xi_2^2 - (\mathbb{E}\xi_2)^2 = 3,84$$
+	$$cov(\xi_1, \xi_2) =  \mathbb{E}(\xi_1\xi_2) - \mathbb{E}\xi_1 \mathbb{E}\xi_2 = 
+	(\sum_{i=1}^{3}\sum_{j=1}^{4}x_iy_jp_{ij}) - \mathbb{E}\xi_1 \mathbb{E}\xi_2 = 
+	-5,7+5,88 = 0,18$$
+	Тоді коваріаційна матриця має вид:
+	$$ \mathcal{C}_{\overrightarrow{\xi}} = 
+	\left(\begin{matrix}
+		1,6491 & 0,18 \\
+		0,18   & 3,84 \\
+	\end{matrix}\right)
+	$$
+	\subsection{Умовні ряди розподілу для кожної координати}
+	
+	Порахуємо умовні імовірності за формулами 
+	\[
+	P\left\{ \xi_1=x_k \middle\vert \xi_2=y_j \right\} = \frac{P\left\{ \xi_1=x_k, \xi_2=y_j \right\}}{P\{\xi_2=y_j\}}
+	\]
+	
+	\[
+		P\left\{ \xi_2=y_j \middle\vert \xi_1=x_k \right\} =\frac{P\left\{ \xi_1=x_k, \xi_2=y_j \right\}}{P\{\xi_1=x_k\}}
+	\]
+	
+	Розглянемо приклад розрахунку для $\xi_2 = -6$:
+	
+	\[
+		\begin{gathered}
+		P\{\xi_1=0\vert\xi_2=-6\} = \frac{0.15}{0.3} = 0.5 \\
+		P\{\xi_1=1\vert\xi_2=-6\} = \frac{0.02}{0.3} = \frac{1}{15} \\
+		\{\xi_1=3\vert\xi_2=-6\} = \frac{0.13}{0.3} = \frac{13}{30} \\
+		\end{gathered}	
+	\]
+	
+	тоді маємо наступні таблиці умовного розподілу
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+	\hline
+	$\xi_1$ & 0 & 1 & 3 \\ \hline
+	$P\{\xi_1 = x_k \vert \xi_2=-6 \}$ & 0.5 & $\frac{1}{15}$ & $\frac{13}{30}$ \\ \hline
+	$P\{\xi_1 = x_k \vert \xi_2=-5 \}$ & $\frac{4}{21}$ & $\frac{11}{21}$ & $\frac{6}{21}$ \\ \hline
+	$P\{\xi_1 = x_k \vert \xi_2=-4 \}$ & $\frac{2}{22}$ & $\frac{13}{22}$ & $\frac{7}{22}$ \\ \hline
+	$P\{\xi_1 = x_k \vert \xi_2=-1 \}$ & $\frac{10}{27}$ & $\frac{4}{27}$ & $\frac{13}{27}$ \\ \hline
+	\end{tabular}
+	\end{center}
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	$\xi_2$ & -6 & -5 & -4 & -1 \\ \hline
+	$P\{ \xi_2 = y_j \vert \xi_1=0 \}$ & $\frac{15}{31}$ & $\frac{4}{31}$ & $\frac{2}{31}$ & $\frac{10}{31}$ \\ \hline
+	$P\{ \xi_2 = y_j \vert \xi_1=1 \}$ & $\frac{2}{30}$ & $\frac{11}{30}$ & $\frac{13}{30}$ & $\frac{4}{30}$ \\ \hline
+	$P\{ \xi_2 = y_j \vert \xi_1=3 \}$ & $\frac{13}{39}$ & $\frac{6}{39}$ & $\frac{7}{39}$ & $\frac{13}{39}$ \\ \hline
+	\end{tabular}
+	\end{center}
+	\subsection{Умовні математичні сподівання для кожної координати з перевіркою}
+	
+	Розрахуємо умовне математичне сподівання через формули 
+	$$
+	\mathbb{E}(\xi_1\vert\xi_2=y_j) = \sum_{k=1}^3 x_kP\{ xi_1=x_k\vert\xi_2=y_j \}
+	$$
+	Аналогічна формула для $\xi_2\vert\xi_1$
+	Маємо наступні ряди розподілу:
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+		$\xi_2$ & -6 & -5 & -4 & -1 \\ \hline
+		$\mathbb{E}(\xi_1\vert\xi_2)$ & $\frac{41}{30}$ & $\frac{29}{21}$ & $\frac{34}{22}$ & $\frac{43}{27}$ \\ \hline
+		P & 0.3 & 0.21 & 0.22 & 0.27 \\ \hline
+	\end{tabular}
+	\end{center}
+	\[
+	\begin{gathered}
+		\mathbb{E}(\xi_1|\xi_2 = -6) = 0 + \frac{1}{15} + 3 * \frac{13}{30} = \frac{41}{30}\\
+		\mathbb{E}(\xi_1|\xi_2 = -5) = 0 + \frac{11}{21} +  \frac{18}{21} = \frac{29}{21}\\
+		\mathbb{E}(\xi_1|\xi_2 = -4) = 0 + \frac{13}{22} + \frac{21}{22} = \frac{34}{22}\\
+		\mathbb{E}(\xi_1|\xi_2 = 1) = 0 + \frac{4}{27} + \frac{39}{27} = \frac{43}{27}
+	\end{gathered}		
+	\]
+	зробимо перевірку:
+	\[
+	\mathbb{E}(\mathbb{E}(\xi_1|\xi_2)) = 1.47 = \mathbb{E}\xi_1
+	\]
+	Тепер аналогічно порахуємо $\mathbb{E}(\xi_2|\xi_1)$:
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+		$\xi_1$ & 0 & 1 & 3 \\ \hline
+		$\mathbb{E}(\xi_1|\xi_2)$ & $-\frac{128}{31}$ & $-\frac{41}{10}$ & $-\frac{149}{39}$ \\ \hline
+		$P$ & 0.31 & 0.3 & 0.39 \\ \hline
+	\end{tabular}
+	\end{center}
+	Зробимо перевірку:
+	\[
+		\mathbb{E}(\mathbb{E}(\xi_1|\xi_2))	= - 0.31 * \frac{128}{31} - 0.3 * \frac{41}{10} - 0.39 * \frac{149}{39} = -4 = \mathbb{E}(\xi_2)
+	\]
+	\newpage
+	\section{Задача 2}
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 225,
+			height=300,
+			ymin=-3.5,
+			ymax=3.5,
+			xmin=-2.9,
+			xmax=2.9,
+			ytick distance=1,
+			xtick distance=1,
+			axis lines= center,
+			xlabel = $X$,
+			ylabel= $Y$,
+			]
+			\addplot[black, ultra thick, domain=-1:1]{3};
+			\addplot[black, ultra thick, domain=-2:-1]{2*x+5};
+			\addplot[black, ultra thick, domain=1:2]{-2*x+5};
+			\addplot[black, ultra thick, domain=1:2]{2*x-4};
+			\addplot[black, ultra thick, domain=0:1]{x-3};
+			\addplot[black, ultra thick, domain=-1:0]{-x-3};
+			\addplot[black, ultra thick, domain=-2:-1]{-2*x-4};
+			\addplot[black, ultra thick] coordinates{(2, 1)(2,0)};
+			\addplot[black, ultra thick] coordinates{(-2, 1)(-2,0)};
+			\addplot[black, dashed] coordinates{(1, 3)(1,-2)};
+			\addplot[black, dashed] coordinates{(-1, 3)(-1,-2)};
+			\addplot[black, dashed] coordinates{(-2, 1)(2,1)};
+			\addplot[black, dashed] coordinates{(-1, -2)(1,-2)};
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	Знайти: 
+	\begin{enumerate}
+		\item Щільності розподілу координат $\xi_1$ та $\xi_2$
+		\item Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ координат $\xi_1$ та $\xi_2$ відповідно
+		\item Функцію розподілу $F_{\overrightarrow{\xi}}(x, y)$ випадкового вектора
+		\item Математичні сподівання координат та кореляційну матрицю
+		\item Умовні щільності розподілу для кожної координати
+		\item Умовні математичні сподівання для кожної координати з перевіркою
+	\end{enumerate}
+
+	\subsection{Щільності розподілу координат $\xi_1$ та $\xi_2$}
+	Область D можна подати у вигляді множини 
+	$$
+	D = \left\{(x, y) \middle\vert 
+	\begin{gathered}((-2\leq x \leq -1) \wedge (-2x - 4 \leq y \leq 2x+5)) \vee \\
+					((-1 \leq x \leq 0) \wedge (-x-3 \leq y \leq 3)) \vee \\
+					((0 \leq x \leq 1) \wedge (x-3 \leq y \leq 3))  \vee \\
+					((1 \leq x \leq 2) \wedge (2x-4 \leq y \leq -2x+5)) \end{gathered} \right\}
+	$$
+	Спочатку розрахуємо $f_{\overrightarrow{\xi}}(x, y)$. 
+	Для цього розрахуємо площу даної фігури. Вона складається із нижнього трикутнику площі 1 $\left(\frac{2 * 1}{2}\right)$, чотирьох трикутників розміру 1 по боках, 2х квадратів площі по 1 та прямокутника площі 10. у сумі маємо площу 
+	$$S(D) = 1 + 4 * 1 + 2 * 1 + 10 = 17$$ 
+	Отже, функція щільності має вигляд 
+	$$
+	f_{\overrightarrow{\xi}}(x, y) = 
+	\begin{cases}
+		\frac{1}{S(D)} & (x,y) \in D \\
+		0 &  (x,y) \notin D
+	\end{cases}
+	=
+		\begin{cases}
+		\frac{1}{17} & (x,y) \in D \\
+		0 &  (x,y) \notin D
+	\end{cases}
+	$$ 
+	
+	Використовуючи означення $$f_{\xi_1}(x) = \int_{-\infty}^{\infty}f_{\overrightarrow{\xi}}(x, y) dy$$
+	$$f_{\xi_2}(y) = \int_{-\infty}^{\infty}f_{\overrightarrow{\xi}}(x, y) dx$$
+	отримуємо 
+	$$f_{\xi_1}(x) = 
+	\begin{cases}
+		0 & x \leq -2 \\
+		\frac{1}{17}\int_{-2x-4}^{2x+5} dy = \frac{1}{17} (4x+9) & -2 < x \leq -1 \\
+		\frac{1}{17}\int_{-x-3}^{3} dy = \frac{1}{17} (x + 6) & -1 < x \leq 0 \\
+		\frac{1}{17}\int_{-3+x}^{3}dy = \frac{1}{17} (6-x) & 0 < x \leq 1 \\
+		\frac{1}{17}\int_{2x-4}^{-2x+5}dy = \frac{1}{17} (9-4x) & 1 < x \leq 2 \\
+		0 & x > 2 \\
+	\end{cases}$$
+		$$f_{\xi_2}(y) = 
+	\begin{cases}
+		0 & y \leq -3 \\
+		\frac{1}{17}\int_{-3-y}^{3+y}dx = \frac{1}{17}(6+2y) & -3 < y \leq -2 \\
+		\frac{1}{17}\int_{-2-\frac{y}{2}}^{2+\frac{y}{2}}dx = \frac{1}{17}(y+4) & -2 < y \leq 0 \\
+		\frac{1}{17}\int_{-2}^{2}dx = \frac{4}{17} & 0 < y \leq 1 \\
+		\frac{1}{17}\int_{\frac{y}{2}-2.5}^{-\frac{y}{2}+2.5}dx = \frac{1}{17}(5-y) & 1 < y \leq 3 \\
+		0 & y > 3 \\
+	\end{cases}
+	$$
+	Перевірка умови нормування
+	\[
+	\int_{-\infty}^{\infty} f_{\xi_1}(x) dx = \frac{1}{17}\int_{-2}^{-1}(4x+9)dx + 
+	\frac{1}{17}\int_{-1}^{0} (x+6)dx + \frac{1}{17}\int_{0}^{1}(6-x)dx + \frac{1}{17}\int_{1}^{2}(9-4x)dx = 
+	\]
+	\[
+	\frac{1}{17}((2x^2+9x)\Big|_{-2}^{-1} + (\frac{x^2}{2} + 6x)\Big|_{-1}^{0} + (-\frac{x^2}{2} + 6x)\Big|_0^1) + (-2x^2+9x)\Big|_{1}^{2} = \frac{1}{17}(3+5.5 + 5.5 + 3) = \frac{17}{17} = 1
+	\]
+	\bigskip
+	\[
+	\int_{-\infty}^{\infty} f_{\xi_2}(y) dy = \frac{1}{17}\int_{-3}^{-2}(6+2y)dy + \frac{1}{17}\int_{-2}^{0}(y+4)dy + \frac{1}{17}\int_{0}^{1}4dy + \frac{1}{17}\int_1^3(5-y)dy =
+	\]
+	\[
+	\frac{1}{17}((6y+y^2)\Big|_{-3}^{-2} + (\frac{y^2}{2} + 4y)\Big|_{-2}^{0} + 4y\Big|_{0}^{1} + (5y-\frac{y^2}{2})\Big|_1^3) = \frac{1}{17}(1+6+4+6) = \frac{17}{17} = 1 
+	\]
+	Умова виконуєтся.
+	\subsection{ Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ координат $\xi_1$ та $\xi_2$ відповідно}
+	Маємо 
+	\[
+	F_{\xi}(x) = \int_{-\infty}^xа_{\xi}(t)\,dt
+	\]
+	Тоді ми маємо
+	\[
+	F_{\xi_1}(x) = 
+	\begin{cases}
+		0 & x \leq -2 \\
+		\frac{1}{17}\int_{-2}^x(4t+9)dt = \frac{2x^2+9x + 10}{17} & -2 < x \leq -1 \\
+		\frac{1}{17}(\int_{-2}^{-1}(4t+9)dt + \int_{-1}^x(t+6)dt) = \frac{8.5 + \frac{x^2}{2}+6x}{17} & -1 < x \leq 0 \\
+		F_{\xi_1}(0) + \frac{1}{17}(\int_{0}^x(6-t)dt) = \frac{8.5 + 6x - \frac{x^2}{2} }{17} & 0 < x \leq 1 \\
+		 F_{\xi_1}(1) + \frac{1}{17}(\int_1^x (9-4t)dt) = \frac{7 + 9x - 2x^2}{17} & 1 < x \leq 2 \\
+		 1 & x > 2 \\
+	\end{cases}
+	\]
+	
+	\[
+	F_{\xi_2}(y) =
+	\begin{cases}
+		0 & y \leq -3 \\
+		\frac{1}{17}\int_{-3}^y(6 + 2t)dt = \frac{6y+y^2+9}{17} & -3 < y \leq -2 \\
+		\frac{1}{17}(\int_{-3}^{-2}(6 + 2t)dt + \int_{-2}^y(t+4)dt) = \frac{7 + \frac{y^2}{2} + 4y}{17} & -2 < y \leq 0 \\
+		F_{\xi_2}(0) + \frac{1}{17}\int_{0}^{y}4dt = \frac{7+4y}{17} & 0 < y \leq 1 \\
+		F_{\xi_2}(1) + \frac{1}{17}\int_{1}^{y}(5-t)dt = \frac{6.5 + 5y - \frac{y^2}{2}}{17} & 1 < y \leq 3 \\
+		1 & y > 3 \\
+	\end{cases} 
+	\]
+	Зробимо перевірку
+	\[
+	F_{\xi_1}(-2-0) = F_{\xi_1}(-2+0) = 0;
+	\]
+	\[
+	F_{\xi_1}(-1-0) = F_{\xi_1}(-1+0) = \frac{3}{17};
+	\]
+	\[
+	F_{\xi_1}(0-0) = F_{\xi_1}(0+0) = \frac{8.5}{17};
+	\]
+	\[
+	F_{\xi_1}(1-0) = F_{\xi_1}(1+0) = \frac{14}{17};
+	\]
+	\[
+	F_{\xi_1}(2-0) = F_{\xi_1}(2+0) = 1;
+	\]
+	
+	\bigskip
+	
+	\[
+	F_{\xi_2}(-3-0) = F_{\xi_2}(-3+0) = 0;
+	\]
+	\[
+	F_{\xi_2}(-2-0) = F_{\xi_2}(-2+0) = \frac{1}{17};
+	\]
+	\[
+	F_{\xi_2}(0-0) = F_{\xi_2}(0+0) = \frac{7}{17};
+	\]
+	\[
+	F_{\xi_2}(1-0) = F_{\xi_2}(1+0) = \frac{11}{17};
+	\]
+	\[
+	F_{\xi_2}(3-0) = F_{\xi_2}(3+0) = 1;
+	\]
+	
+	\subsection{Функцію розподілу  $F_{\vv{\xi}} (x, y)$ випадкового вектора}
+	Розіб'ємо область на наступні частини
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 400,
+				height=535,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[red] fill between[of=G and xaxis, soft clip={domain=-2:-1}];
+				\addplot[yellow] fill between[of=B and L, soft clip={domain=-2:-1}];
+				\addplot[green] fill between[of=xaxis and L, soft clip={domain=-2:-1}];
+				\addplot[blue] fill between[of=xaxis and L, soft clip={domain=-1:0}];		
+				\addplot[magenta] fill between[of=xaxis and M, soft clip={domain=-1:0}];
+				\addplot[cyan] fill between[of=A and L, soft clip={domain=-1:0}];
+				\addplot[orange] fill between[of=F and M, soft clip={domain=-1:0}];
+				\addplot[pink] fill between[of=A and L, soft clip={domain=0:1}];
+				\addplot[lime] fill between[of=xaxis and L, soft clip={domain=0:1}];
+				\addplot[teal] fill between[of=xaxis and M, soft clip={domain=0:1}];
+				\addplot[olive] fill between[of=E and M, soft clip={domain=0:1}];
+				\addplot[violet] fill between[of=C and L, soft clip={domain=1:2}];
+				\addplot[lightgray] fill between[of=L and xaxis, soft clip={domain=1:2}];
+				\addplot[brown] fill between[of=xaxis and D, soft clip={domain=1:2}];
+				\addplot[pattern color=red, pattern=grid] fill between[of=top and B, soft clip={domain=-2:-1}];
+				\addplot[pattern color=green, pattern=grid] fill between[of=top and A, soft clip={domain=-1:0}];
+				\addplot[pattern color=brown, pattern=grid] fill between[of=top and A, soft clip={domain=0:1}];
+				\addplot[pattern color=blue, pattern=grid] fill between[of=softtop and C, soft clip={domain=1:2}];
+				 \addplot[pattern color=magenta, pattern=grid] fill between[of=softtop and top, soft clip={domain=1:2}];
+				 \addplot[pattern color=magenta, pattern=grid] fill between[of=E and bottom, soft clip={domain=0:1}];
+				 \addplot[pattern color=magenta, pattern=grid] fill between[of=softbottom and bottom, soft clip={domain=1:3}];
+				 \addplot[pattern color=yellow, pattern=grid] fill between[of=softbottom and D];
+				 \addplot[pattern color=yellow, pattern=grid] fill between[of=softbottom and xaxis, soft clip={domain=2:3}];
+				 \addplot[pattern color=cyan, pattern=grid] fill between[of=overxaxis and xaxis, soft clip={domain=2:3}];
+				 \addplot[pattern color=orange, pattern=grid] fill between[of=overxaxis and softtop, soft clip={domain=2:3}];
+				 \addplot[pattern color=lime, pattern=grid] fill between[of=top and softtop, soft clip={domain=2:3}];
+				 \node at (axis cs: -2,-2) {$D_0$};
+				 \node at (axis cs: -0.25,-2.25) {$D_1$};
+				 \node at (axis cs: 0.25,-2.25) {$D_2$};
+				 \node at (axis cs: -1.25,-0.5) {$D_3$};
+				 \node at (axis cs: -0.5,-0.5) {$D_4$};
+				 \node at (axis cs: 0.5,-0.5) {$D_5$};
+				 \node at (axis cs: 1.25,-0.5) {$D_6$};
+				 \node at (axis cs: -1.5,0.5) {$D_7$};
+				 \node at (axis cs: -0.5,0.5) {$D_8$};
+				 \node at (axis cs: 0.5,0.5) {$D_9$};
+				 \node at (axis cs: 1.5,0.5) {$D_{10}$};
+				 \node at (axis cs: -1.5,1.25) {$D_{11}$};
+				 \node at (axis cs: -0.5,1.5) {$D_{12}$};
+				 \node at (axis cs: 0.5,1.5) {$D_{13}$};
+				 \node at (axis cs: 1.5,1.25) {$D_{14}$};
+				 \node at (axis cs: 1.5,-2.5) {$D_{15}$};
+				 \node at (axis cs: 2,-1) {$D_{16}$};
+				 \node at (axis cs: 2.5,0.5) {$D_{17}$};
+				 \node at (axis cs: -1.5,3) {$D_{18}$};
+				 \node at (axis cs: -0.5,3.25) {$D_{19}$};
+				 \node at (axis cs: 0.65,3.25) {$D_{20}$};
+				 \node at (axis cs: 1.5, 2.75) {$D_{21}$};
+				 \node at (axis cs: 2.5, 2) {$D_{22}$};
+				 \node at (axis cs: 1.5,3.25) {$D_{23}$};
+				 \node at (axis cs: 2.5,3.25) {$D_{24}$};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	
+	А тепер ми порахуємо кожну область. Насолоджуйтесь.
+	
+	\begin{enumerate}
+		
+		\setcounter{enumi}{-1}
+		\item 
+		\[
+			D_0 = \left\{ (x, y)\middle\vert 
+			\begin{gathered}
+				(x \leq -2) \vee \\
+				(y \leq -3) \vee \\
+				(-2 < x \leq -1) \wedge (y \leq -2x-5) \vee \\
+				(-1 < x \leq 0) \wedge (y \leq -x-3) \\
+		 	\end{gathered}  \right\}
+		\]
+		\[
+			G_0 = \emptyset
+		\]
+		\begin{center}
+			\begin{tikzpicture}
+				\begin{axis}[
+					width = 225,
+					height=300,
+					ymin=-3.5,
+					ymax=3.5,
+					xmin=-2.9,
+					xmax=2.9,
+					ytick distance=1,
+					xtick distance=1,
+					axis lines= center,
+					xlabel = $X$,
+					ylabel= $Y$,
+					]
+					\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+					\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+					\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+					\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+					\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+					\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+					\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+					\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+					\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+					\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+					\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+					\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+					\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+					\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+					\addplot[black, solid, name path = Y] coordinates{(-3, -2)(-2, -2)(-2, -3)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+		\[
+		F_{\overrightarrow{\xi}} (x, y) = 0
+		\]
+		\newpage
+		\item 
+		\[
+		D_1 = \left\{
+			(x, y) \middle\vert (-1 < x \leq 0) \wedge (-3-x < y \leq -2) 
+		\right\}
+		\]
+		\[
+		G_1 = \left\{ (t, s) \middle\vert ( -3-y \leq t < x) \wedge ( -3-t \leq s < y )  \right\}
+		\]
+		\begin{center}
+			\begin{tikzpicture}
+				\begin{axis}[
+					width = 225,
+					height=300,
+					ymin=-3.5,
+					ymax=3.5,
+					xmin=-2.9,
+					xmax=2.9,
+					ytick distance=1,
+					xtick distance=1,
+					axis lines= center,
+					xlabel = $X$,
+					ylabel= $Y$,
+					]
+					\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+					\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+					\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+					\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+					\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+					\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+					\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+					\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+					\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+					\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+					\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+					\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+					\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+					\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+					\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+					\addplot[black, solid, name path = Y] coordinates{(-3, -2.25)(-0.25, -2.25)(-0.25, -4)};
+					\addplot[yellow] fill between[of=Y and F, soft clip = {domain=-0.75:-0.25}];
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	\[
+		F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-3-y}^{x}dt \int_{-3-t}^y ds\right) =  \frac{1}{17}\int_{-3-y}^{x} (3 + t + y)dt = \frac{(x + y + 3)^2}{34}
+	\]
+	Зробимо перевірку 
+	\[
+		F_{\overrightarrow{\xi}} (y = -3-x) = \frac{(x -3 - x + 3)^2}{34} = 0
+	\]
+	\newpage
+	\item
+	\[
+	D_2 = \left\{
+	(x, y) \middle\vert (0 < x \leq 1) \wedge (x-3 < y \leq -2) 
+	\right\}
+	\]
+		\[
+	G_2 = G_2' + G_2'' =
+	\begin{gathered}
+	\left\{ (t, s) \middle\vert ( -3 - y \leq t < 0) \wedge ( -3-t \leq s < y )  \right\} \cup \\ \left\{ (t, s) \middle\vert ( 0 \leq t x) \wedge ( t-3 \leq s < y )  \right\}
+	\end{gathered}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[
+			width = 225,
+			height=300,
+			ymin=-3.5,
+			ymax=3.5,
+			xmin=-2.9,
+			xmax=2.9,
+			ytick distance=1,
+			xtick distance=1,
+			axis lines= center,
+			xlabel = $X$,
+			ylabel= $Y$,
+			]
+			\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+			\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+			\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+			\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+			\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+			\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+			\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+			\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+			\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+			\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+			\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+			\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+			\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+			\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+			\addplot[black, solid, name path = Y] coordinates{(-3, -2.25)(0.25, -2.25)(0.25, -4)};
+			\addplot[yellow] fill between[of=Y and F, soft clip = {domain=-0.75:0}];
+			\addplot[orange] fill between[of=Y and E, soft clip = {domain=0:0.25}];
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	
+	\[
+	F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-3-y}^{0}dt\int_{-3-t}^{y}ds + \int_{0}^{x} dt \int_{t-3}^{y}ds \right) = \frac{(y+3)^2 + 2x(y+3) - x^2}{34} 
+	\]
+		Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (1, -2) = \frac{1}{17} = S(D_1 \cup D_2)/17
+	\]
+	\newpage
+	\item
+	\[
+	D_3 = \left\{
+	(x, y) \middle\vert (-2 < x \leq -1) \wedge (-2x-4 < y \leq 0) 
+	\right\}
+	\]
+	
+	\[
+	G_3 = \left\{ (t, s) \middle\vert ( -2x-4 \leq s < y) \wedge ( -2 - \frac{s}{2} \leq t < x )  \right\}
+	\]
+
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 225,
+			height=300,
+			ymin=-3.5,
+			ymax=3.5,
+			xmin=-2.9,
+			xmax=2.9,
+			ytick distance=1,
+			xtick distance=1,
+			axis lines= center,
+			xlabel = $X$,
+			ylabel= $Y$,
+			]
+			\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+			\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+			\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+			\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+			\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+			\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+			\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+			\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+			\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+			\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+			\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+			\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+			\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+			\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+			\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+			\addplot[black, solid, name path = Y] coordinates{(-3, -0.5)(-1.25, -0.5)(-1.25, -4)};
+			\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-1.75:-1.25}];
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	
+	\[
+	F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-2x-4}^yds \int_{-2-\frac{s}{2}}^{x} dt\right) = \frac{1}{17}\left(\int_{-2x-4}^{y} (x+2+\frac{s}{2}) ds\right) = \frac{(4 + 2 x + y)^2}{68}
+	\]	
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (-1, 0) = \frac{1}{17} = S(D_3)/17
+	\]
+	\newpage
+	\item
+	\[
+		D_4 = (-1, 0] \times (-2, 0]
+	\]
+	\[
+		G_4 =
+		\begin{gathered}
+		 \left\{ (t, s) \middle\vert (-2 - \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y )  \right\} \cup \\
+		 \left\{ (t, s) \middle\vert (-1 \leq t \leq x) \wedge ( -t-3 \leq s < y )  \right\} 
+		\end{gathered}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, -0.5)(-0.5, -0.5)(-0.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:-0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-2 - \frac{y}{2}}^{-1} dt \int_{-2t-4}^{y} ds + 
+		\int_{-1}^{x} dt \int_{-t-3}^{y} ds\right) =\\\frac{1}{17}\left( \int_{-2-\frac{y}{2}}^{-1} (y + 2t + 4) dt + \int_{-1}^{x} (y + t +3) dt \right) = \frac{(2 + y)^2 + 2(1 + x) (5 + x + 2 y)}{68}
+	\end{gathered}
+	\]	
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (-1, -2) = 0
+	\]
+	\newpage
+	\item
+	\[
+	D_5 = (0, 1]\times (-2, 0]
+	\]
+	\[
+		G_5 = \begin{gathered}
+			\left\{ (t, s) \middle\vert (-2 - \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y )  \right\} \cup \\
+			\left\{ (t, s) \middle\vert (-1 \leq t < 0) \wedge ( -t-3 \leq s < y )  \right\} \cup \\
+			\left\{ (t, s) \middle\vert (0 \leq t < x) \wedge ( t-3 \leq s < y )  \right\}
+			\end{gathered}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, -0.5)(0.5, -0.5)(0.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[cyan] fill between[of=Y and E, soft clip = {domain=0:0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-2 - \frac{y}{2}}^{-1} dt \int_{-2t-4}^{y} ds + 
+		\int_{-1}^{0} dt \int_{-t-3}^{y} ds + \int_{0}^{x} dt \int_{t-3}^{y} ds\right) = \\
+		\frac{\frac{(2 + y)^2}{4} + y + \frac{5}{2}  + x (3 + y) - \frac{x^2}{2}}{17}
+	\end{gathered}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (0, -2) = \frac{1}{34} = S(D_1)/17 
+	\]
+	\newpage
+	\item
+	
+	\[
+	D_6 = \left\{(x, y) \middle\vert (1 < x \leq 2) \wedge (2x-4 < y \leq 0) \right\}
+	\]
+	\[
+	\begin{gathered}
+	G_6 = D_1 \cup D_2 \cup\\ \left\{ (t, s) \middle\vert (-2 \leq s < 2x-4) \wedge (-2-\frac{s}{2} \leq t < 2+\frac{s}{2} \right\} \cup \\
+	 \left\{ (t, s) \middle\vert (2x-4 \leq s < y) \wedge (-2-\frac{s}{2} \leq t < x) \right\}
+	\end{gathered}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=xaxis] {0};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, -0.5)(1.5, -0.5)(1.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[cyan] fill between[of=Y and E, soft clip = {domain=0:1}];
+				\addplot[green] fill between[of=Y and D, soft clip = {domain=1:1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left( S(D_1) + S(D_2) + \int_{-2}^{2x-4}ds \int_{-2-\frac{s}{2}}^{2+\frac{s}{2}}dt +  \int_{2x-4}^{y}ds\int_{-2-\frac{s}{2}}^{x}dt \right) = \\
+		\frac{1 + 2(x^2-1) - 3 x^2 + x (4 + y) + \frac{(4 + y)^2}{4}}{17} \\
+	\end{gathered}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (1, -2) = \frac{1}{17} = S(D_1 \cup D_2)/17 
+	\]
+	\newpage
+	\item
+	\[
+	D_7 = (-2, -1] \times (0, 1] 
+	\]
+	\[
+	G_7 = \left\{ (t, s) \middle\vert (-2 \leq t < x) \wedge ( -2t-4 \leq s < y) \right\}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, thick, domain=-3:3] {0};
+				\addplot[black, thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 0.5)(-1.5, 0.5)(-1.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-2:-1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+		F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-2}^{x}dt\int_{-2t-4}^{y} ds \right) = \frac{(2 + x) (2 + x + y)}{17}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (x = -2) = \frac{(2 - 2) (2 - 2 + y)}{17} = 0 
+	\]
+	\newpage
+	\item
+	\[
+	D_8 = (-1, 0] \times (0, 1] 
+	\]
+	\[
+	\begin{gathered}
+	G_8 = \left\{ (t, s) \middle\vert (-2 \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert (-1 \leq t < x) \wedge ( -t-3 \leq s < y) \right\}
+	\end{gathered}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, thick, domain=-3:3] {0};
+				\addplot[black, thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 0.5)(-0.5, 0.5)(-0.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:-0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	F_{\overrightarrow{\xi}} (x, y) =\frac{1}{17}\left( \int_{-2}^{-1}dt\int_{-2t-4}^{y} ds +  \int_{-1}^{x}dt\int_{-t-3}^{y} ds \right) = \frac{y + 1 + \frac{(1 + x) (5 + x + 2 y)}{2}}{17} 
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (-1, 0) = \frac{1}{17}
+	\]
+	\newpage
+	\item
+	
+	\[
+	D_9 = (0, 1]^2 
+	\]
+	
+	\[
+	\begin{gathered}
+		G_9 = \left\{ (t, s) \middle\vert (-2 \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert (-1 \leq t < 0) \wedge ( -t-3 \leq s < y) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert (0 \leq t < x) \wedge ( t-3 \leq s < y) \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, thick, domain=-3:3] {0};
+				\addplot[black, thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 0.5)(0.5, 0.5)(0.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[magenta] fill between[of=Y and E, soft clip = {domain=0:0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+	F_{\overrightarrow{\xi}} (x, y) = \frac{1}{17}\left(\int_{-2}^{-1}dt\int_{-2t-4}^{y} ds +  \int_{-1}^{0}dt\int_{-t-3}^{y} ds + \int_{0}^{x}dt\int_{t-3}^{y} ds \right) = \\
+	\frac{y + 1 + y + \frac{5}{2} + 3x + xy - \frac{x^2}{2}}{17} = \\
+	\frac{3x + 2y + xy - \frac{x^2}{2} + \frac{7}{2}}{17}
+	\end{gathered}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (1, 1) = \frac{7}{34}
+	\]
+	\newpage
+	\item
+	
+	\[
+	D_{10} = (1, 2] \times (0, 1] 
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{10} = \left\{ (t, s) \middle\vert (-2 \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert (-1 \leq t < 0) \wedge ( -t-3 \leq s < y) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert (0 \leq t < x) \wedge ( t-3 \leq s < y) \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, thick, domain=-3:3] {0};
+				\addplot[black, thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 0.5)(1.5, 0.5)(1.5, -4)};
+				\addplot[yellow] fill between[of=Y and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[magenta] fill between[of=Y and E, soft clip = {domain=0:1}];
+				\addplot[olive] fill between[of=Y and D, soft clip = {domain=1:1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\ \frac{1}{17}\left(\int_{-2}^{-1}dt\int_{-2t-4}^{y} ds +  \int_{-1}^{0}dt\int_{-t-3}^{y} ds + \int_{0}^{1}dt\int_{t-3}^{y} ds + \int_{1}^{x}dt\int_{2t-4}^{y} ds\right) = \\
+		\frac{y + 1 + y + \frac{5}{2} + y + \frac{5}{2} + (1 - x) (x - y - 3)}{17} = \\
+		\frac{3y + 6 + (1 - x) (x - y - 3)}{17}
+	\end{gathered}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (2, 0) = \frac{7}{17}
+	\]
+	\newpage
+	\item
+	
+	\[
+	D_{11} = \{(x, y) \vert (-2 < x \leq -1) \wedge (1 < y < 2x+5)\} 
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{11} = \left\{ (t, s) \middle\vert (-2 \leq t < -2.5 + \frac{y}{2}) \wedge ( -2t-4 \leq s < 2t+5) \right\} \cup \\ \left\{ (t, s) \middle\vert (-2.5 + \frac{y}{2} \leq t < x) \wedge ( -2t-4 \leq s < y) \right\} 
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, thick, domain=-3:3] {0};
+				\addplot[black, thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 1.5)(-1.5, 1.5)(-1.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.75}];
+				\addplot[orange] fill between[of=Y and G, soft clip = {domain=-1.75:-1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\ \frac{1}{17}\left( \int_{-2}^{-2.5 + \frac{y}{2}}dt\int_{-2t-4}^{2t+5} ds +  \int_{-2.5 + \frac{y}{2}}^{x}dt\int_{-2t-4}^{y} ds \right) = \\
+		\frac{1}{17}\left(\frac{y^2 - y}{2} + \frac{15}{4} + x^2 + 3 y - \frac{3}{4} y^2 + x (4 + y) \right) =\\
+		 \frac{1}{17}\left(\frac{15}{4}  + 4x + x^2 + \frac{5y}{2} + x y - \frac{y^2}{4}\right) 
+	\end{gathered}
+	\]	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (-2, 1) = 0
+	\]
+	\newpage
+	\item
+	\[
+	D_{12} = (-1, 0] \times (1, 3]
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{12} = \left\{ (t, s) \middle\vert (-2 \leq t < -2.5 + \frac{y}{2}) \wedge ( -2t-4 \leq s < 2t+5) \right\} \cup \\ \left\{ (t, s) \middle\vert (-2.5 + \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert (-1 \leq t < x) \wedge ( -t-3 \leq s < y) \right\}	
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 1.5)(-0.5, 1.5)(-0.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.75}];
+				\addplot[orange] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[purple] fill between[of=Y and F, soft clip = {domain=-1:-0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\ \frac{1}{17}\left(\int_{-2}^{-2.5 + \frac{y}{2}}dt\int_{-2t-4}^{2t+5} ds +  \int_{-2.5 + \frac{y}{2}}^{-1}dt\int_{-2t-4}^{y} ds + \int_{-1}^{x}dt\int_{-t-3}^{y} ds \right) = \\
+		\frac{1}{17}\left(\frac{y^2 - y}{2} + \frac{3}{4}(1 + \frac{8}{3}y - y^2) +\frac{1}{2}(1 + x) (5 + x + 2 y) \right) = \\
+		\frac{\frac{13}{4} + 3 x + \frac{x^2}{2} + \frac{5 y}{2} + x y - \frac{y^2}{4}}{17}\\
+	\end{gathered}
+	\]
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (-1, 1) = \frac{2}{17}
+	\]
+	\newpage
+	\item
+	\[
+	D_{13} = (0, 1] \times (1, 3]
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{13} = \left\{ (t, s) \middle\vert (-2 \leq t < -2.5 + \frac{y}{2}) \wedge ( -2t-4 \leq s < 2t+5) \right\} \cup \\ \left\{ (t, s) \middle\vert (-2.5 + \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert (-1 \leq t < 0) \wedge ( -t-3 \leq s < y) \right\}	 \cup \\ \left\{ (t, s) \middle\vert (0 \leq t < x) \wedge ( t-3 \leq s < y) \right\}	
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 1.5)(0.5, 1.5)(0.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.75}];
+				\addplot[orange] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[purple] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[blue] fill between[of=Y and E, soft clip = {domain=0:0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\\frac{1}{17}\left( \int_{-2}^{-2.5 + \frac{y}{2}}dt\int_{-2t-4}^{2t+5} ds +  \int_{-2.5 + \frac{y}{2}}^{-1}dt\int_{-2t-4}^{y} ds + \int_{-1}^{0}dt\int_{-t-3}^{y} ds + \int_{0}^{x}dt\int_{t-3}^{y} ds = \right)\\
+		\frac{1}{17}\left(\frac{y^2 - y}{2} + \frac{3}{4}(1 + \frac{8}{3}y - y^2) + y + \frac{5}{2} + xy + 3x -\frac{x^2}{2} \right)= \\
+		\frac{1}{17}\left(\frac{13}{4} + 3x - \frac{x^2}{2} + \frac{5y}{2} + x y - \frac{y^2}{4}\right)
+	\end{gathered}
+	\] 
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (1, 3) = \frac{14}{17}
+	\]
+	\newpage
+	\item
+	\[
+	D_{14} = \left\{ (1< x \leq 2) \wedge ( 1 < y \leq 5 - 2x)  \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{14} = \left\{ (t, s) \middle\vert (-2 \leq t < -2.5 + \frac{y}{2}) \wedge ( -2t-4 \leq s < 2t+5) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert (-2.5 + \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert (-1 \leq t < 0) \wedge ( -t-3 \leq s < y) \right\}	 \cup \\
+		 \left\{ (t, s) \middle\vert (0 \leq t < 1) \wedge ( t-3 \leq s < y) \right\} \cup \\
+		 \left\{ (t, s) \middle\vert (1 \leq t < x) \wedge ( 2t-x \leq s < y)
+		 \right\}	
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 1.5)(1.5, 1.5)(1.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.75}];
+				\addplot[orange] fill between[of=Y and G, soft clip = {domain=-1.75:-1}];
+				\addplot[purple] fill between[of=Y and F, soft clip = {domain=-1:0}];
+				\addplot[blue] fill between[of=Y and E, soft clip = {domain=0:1}];
+				\addplot[green] fill between[of=Y and D, soft clip = {domain=1:1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\ \frac{1}{17}\left(\int_{-2}^{-2.5 + \frac{y}{2}}dt\int_{-2t-4}^{2t+5} ds + \int_{-2.5 + \frac{y}{2}}^{-1}dt\int_{-2t-4}^{y} ds + \int_{-1}^{0}dt\int_{-t-3}^{y} ds + \int_{0}^{1}dt\int_{t-3}^{y} ds +  \int_{1}^{x}dt\int_{2t-4}^{y} ds \right) = \\
+		\frac{1}{17}\left(\frac{y^2 - y}{2} + \frac{3}{4}(1 + \frac{8}{3}y - y^2) + y + \frac{5}{2} + y + \frac{5}{2} + (1-x)(x - y - 3) \right) =\\ \frac{1}{17}\left(\frac{11}{4} + 4 x - x^2 + \frac{5 y}{2} + x y - \frac{y^2}{4}\right)
+	\end{gathered}
+	\] 
+	Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (1, 3) = \frac{14}{17}
+	\]
+	\newpage
+	\item
+	\[
+	D_{15} = \left\{ (-3 < y \leq -2) \wedge ( x > y + 3)  \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{15} = \left\{ (t, s) \middle\vert (-3 \leq s < y) \wedge ( -3-s \leq t < 3 + s) \right\}	
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, -2.5)(1.5, -2.5)(1.5, -4)};
+				\addplot[purple] fill between[of=Y and F, soft clip = {domain=-0.5:0}];
+				\addplot[purple] fill between[of=Y and E, soft clip = {domain=0:0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left(\int_{-3}^{y} ds \int_{-3-s}^{3+s} dt \right) = \frac{y^2 + 6 y + 9}{17} = F_{\xi_2} (y)
+	\end{gathered}
+	\] 
+	\newpage
+	\item
+	\[
+	D_{16} = \left\{ (-3 < y \leq -2) \wedge ( x > y + 3)  \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{16} = D_1 \cup D_2 \cup \left\{ (t, s) \middle\vert (-2 \leq s < y) \wedge ( -2 - \frac{s}{2} \leq t < 2 + \frac{s}{2}) \right\}	
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, -1.5)(1.5, -1.5)(1.5, -4)};
+				\addplot[purple] fill between[of=softbottom and F, soft clip = {domain=-1:0}];
+				\addplot[purple] fill between[of=softbottom and E, soft clip = {domain=0:1}];
+				\addplot[pink] fill between[of=softbottom and Y, soft clip = {domain=-1:1}];
+				\addplot[pink] fill between[of=G and Y, soft clip = {domain=-1.25:-1}];
+				\addplot[pink] fill between[of=D and Y, soft clip = {domain=1:1.25}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left( S(D_1) + S(D_2) + \int_{-2}^{y}ds \int_{ -2 - \frac{s}{2}}^{ + 2 + \frac{s}{2}} dt \right) = \\
+		\frac{1}{17}\left(\frac{1}{2} + \frac{1}{2} + \int_{-2}^{y}(s+4)ds\right) = \\ \frac{1}{17}\left(\frac{y^2}{2} + 4y + 7\right) = F_{\xi_2} (y)
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+	
+	\[
+	D_{17} = (2, +\infty] \times (0, 1]
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{17} = D_1 \cup D_2 \cup D_3 \cup D_4 \cup D_5 \cup D_6 \cup [-2, 2] \times [0, y] 
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 0.5)(2.5, 0.5)(2.5, -4)};
+				\addplot[purple] fill between[of=softbottom and F, soft clip = {domain=-1:0}];
+				\addplot[purple] fill between[of=softbottom and E, soft clip = {domain=0:1}];
+				\addplot[pink] fill between[of=softbottom and xaxis, soft clip = {domain=-1:1}];
+				\addplot[pink] fill between[of=G and xaxis, soft clip = {domain=-2:-1}];
+				\addplot[pink] fill between[of=D and xaxis, soft clip = {domain=1:2}];
+				\addplot[lime] fill between[of=Y and xaxis, soft clip = {domain=-2:2}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left( S(D_1) + S(D_2) + S(D_3) + S(D_4) + S(D_5) +  S(D_6) + \int_{-2}^{2}dt\int_{0}^{y}ds \right) = \\
+		\frac{1}{17}\left(\frac{1}{2} + \frac{1}{2} + 1 + 2 + 2 + 1 + \int_{-2}^{2}ydt\right) = \\ \frac{1}{17}\left( 4y + 7\right) = F_{\xi_2} (y)
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+	
+	\[
+	D_{18} = \left\{ (x, y) \middle\vert (-2 < x \leq -1) \wedge (y > 2x+5) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{18} =  \left\{ (t, s) \middle\vert (-2 \leq t < x) \wedge ( -4-2t \leq s < 5 + 2t \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 2.5)(-1.5, 2.5)(-1.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left(\int_{-2}^{x} dt \int_{-4-2t}^{5+2t} ds \right) = \frac{1}{17}\left(\int_{-2}^{x} (9 + 4t) dt \right) = \frac{1}{17}(2x^2 + 9x + 10) = F_{\xi_1}(x)\\		
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+		\[
+	D_{19} = \left\{ (x, y) \middle\vert (-1 < x \leq 0) \wedge (y > 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{19} = D_3 \cup D_7 \cup D_{11} \cup \left\{ (t, s) \middle\vert (-1 \leq t < x) \wedge ( -t-3 \leq s < 3 \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 3.5)(-0.5, 3.5)(-0.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=F and A, soft clip = {domain=-1:-0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left(S(D_3) + S(D_7) + S(D_{11}) + \int_{-1}^{x} dt \int_{-t-3}^{3} ds \right) = \\ \frac{1}{17}\left( 1 + 1 + 1 + \int_{-1}^{x} (t+6) dt\right) =\\ \frac{1}{17}(\frac{x^2}{2} + 6x + \frac{17}{2}) = F_{\xi_1}(x)\\	
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+	\[
+	D_{20} = \left\{ (x, y) \middle\vert (0 < x \leq 1) \wedge (y > 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{20} = D_3 \cup D_7 \cup D_{11} \cup D_1 \cup D_4 \cup D_8 \cup D_{12} \cup \left\{ (t, s) \middle\vert (0 \leq t < x) \wedge ( t-3 \leq s < 3 \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 3.5)(0.5, 3.5)(0.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=F and A, soft clip = {domain=-1:-0}];
+				\addplot[red] fill between[of=E and A, soft clip = {domain=0:0.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left(S(D_3) + S(D_7) + S(D_{11}) S(D_1) + S(D_4) + S(D_8) + S(D_{12}) + \int_{0}^{x} dt \int_{t-3}^{3} ds \right) = \\ \frac{1}{17}\left( 1 + 1 + 1 + 0.5 + 2 + 1 + 2 + \int_{0}^{x} (-t+6) dt\right) =\\ \frac{1}{17}(-\frac{x^2}{2} + 6x + \frac{17}{2}) = F_{\xi_1}(x)\\	
+	\end{gathered}
+	\] 
+	\newpage
+	\item
+	\[
+	D_{21} = \left\{ (x, y) \middle\vert (1 < x \leq 2) \wedge ( 5 - 2x < y \leq 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{21} =  \left\{ (t, s) \middle\vert (-2 \leq t < -2.5 + \frac{y}{2}) \wedge ( -2t-4 \leq s < 2t+5) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert ( -2.5 + \frac{y}{2} \leq t < -1) \wedge ( -2t-4 \leq s < y) \right\} \cup \\ \left\{ (t, s) \middle\vert ( -1 \leq t < 0) \wedge ( -t-3 \leq s < y) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert ( 0 \leq t < 1) \wedge ( t-3 \leq s < y) \right\} \cup \\ 
+		\left\{ (t, s) \middle\vert (1 \leq t < 2.5 - \frac{y}{2}) \wedge (2t - 4 < s < y) \right\}\cup \\
+		\left\{ (t, s) \middle\vert (2.5 - \frac{y}{2} \leq t < x) \wedge (2t - 4 < s < 5-2t) \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 2.5)(1.5, 2.5)(1.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1.25}];
+				\addplot[orange] fill between[of=G and Y, soft clip = {domain=-1.25:-1}];
+				\addplot[red] fill between[of=F and Y, soft clip = {domain=-1:0}];
+				\addplot[cyan] fill between[of=E and Y, soft clip = {domain=0:1}];
+				\addplot[magenta] fill between[of=D and Y, soft clip = {domain=1:1.25}];
+				\addplot[lime] fill between[of=D and C, soft clip = {domain=1.25:1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}(\int_{-2}^{-2.5 + \frac{y}{2}} dt \int_{-2t-4}^{2t+5} ds + \int_{-2.5 + \frac{y}{2}}^{-1}dt\int_{-2t-4}^{y}ds + \int_{-1}^{0}dt\int_{-t-3}^{y}ds +  \\ \int_{0}^{1}dt\int_{t-3}^{y}ds + \int_{1}^{2.5 - \frac{y}{2}}dt \int_{2t-4}^{y}ds + 
+		\int_{2.5 - \frac{y}{2}}^{x} dt \int_{2t-4}^{5-2t} ds) = \\
+		\frac{1}{17}\left( \frac{y^2-y}{2} + \frac{3}{4}(1 - y^2 + \frac{8}{3}y) + y + \frac{5}{2} + y + \frac{5}{2} + \frac{3}{4}(1 - y^2 + \frac{8}{3}y) + 9 x - 2 x^2 - \frac{1}{2} y + \frac{1}{2} y^2 -10 \right)  = \\
+		\frac{1}{17}\left( 9 x - 2 x^2 + 5y - \frac{y^2}{2} -\frac{7}{2} \right)
+	\end{gathered}
+	\] 
+		Зробимо перевірку 
+	\[
+	F_{\overrightarrow{\xi}} (2, 3) = 1
+	\]
+	\newpage
+	\item
+	\[
+	D_{22} = \left\{ (x, y) \middle\vert (x > 2) \wedge ( 1 < y \leq 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{22} = \bigcup_{i=1}^{10}D_{i} \cup \left\{ (t, s) \middle\vert (1 \leq s < y) \wedge ( -2.5 + \frac{y}{2} \leq t < 2.5 - \frac{y}{2} ) \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 2.5)(2.5, 2.5)(2.5, -4)};
+				\addplot[purple] fill between[of=softbottom and F, soft clip = {domain=-1:0}];
+				\addplot[purple] fill between[of=softbottom and E, soft clip = {domain=0:1}];
+				\addplot[pink] fill between[of=softbottom and xaxis, soft clip = {domain=-1:1}];
+				\addplot[pink] fill between[of=G and xaxis, soft clip = {domain=-2:-1}];
+				\addplot[pink] fill between[of=D and xaxis, soft clip = {domain=1:2}];
+				\addplot[lime] fill between[of=xaxis and overxaxis, soft clip = {domain=-2:2}];
+				\addplot[magenta] fill between[of=B and overxaxis, soft clip = {domain=-2:-1.25}];
+				\addplot[magenta] fill between[of=Y and overxaxis, soft clip = {domain=-1.25:1.25}];
+				\addplot[magenta] fill between[of=C and overxaxis, soft clip = {domain=1.25:2}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}\left(\sum_{i=1}^{10}S(D_{i})+ \int_{1}^{y} ds \int_{ - 2.5 + \frac{s}{2}}^{ 2.5 - \frac{s}{2}} dt \right) = \\ \frac{1}{17}\left( 11 + 5y -\frac{y^2}{2} - \frac{9}{2} \right) =  \frac{1}{17}\left( 6.5 + 5y -\frac{y^2}{2} \right) = F_{\xi_2}(y)\\
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+	\[
+	D_{23} = \left\{ (x, y) \middle\vert (1 < x \leq 2) \wedge (y > 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{23} = D_3 \cup D_7 \cup D_{11} \cup D_1 \cup D_4 \cup D_8 \cup D_{12} \cup D_{2} \cup D_5 \cup D_9 \cup D_{13} \cup \\ \left\{ (t, s) \middle\vert (1 \leq t < x) \wedge ( 2t-4 \leq s < 5-2t \right\}
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 3.5)(1.5, 3.5)(1.5, -4)};
+				\addplot[yellow] fill between[of=B and G, soft clip = {domain=-2:-1}];
+				\addplot[orange] fill between[of=F and A, soft clip = {domain=-1:-0}];
+				\addplot[red] fill between[of=E and A, soft clip = {domain=0:1}];
+				\addplot[lime] fill between[of=D and C, soft clip = {domain=1:1.5}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}(S(D_3) + S(D_7) + S(D_{11}) S(D_1) + S(D_4) + S(D_8) + S(D_{12}) + S(D_2) + S(D_5) + S(D_9) \\ + S(D_{13}) + \int_{1}^{x} dt \int_{2t-4}^{5-2t} ds ) = \\ \frac{1}{17}\left( 14  \int_{1}^{x} (-4t+9) dt\right) =\\ \frac{1}{17}(14 - 2x^2 + 9x - 7) = \\ 
+		 \frac{1}{17}(7 - 2x^2 + 9x) = F_{\xi_1}(x)\\	
+	\end{gathered}
+	\] 
+	
+	\newpage
+	\item
+	\[
+	D_{24} = \left\{ (x, y) \middle\vert (x > 2) \wedge (y > 3) \right\}
+	\]
+	
+	\[
+	\begin{gathered}
+		G_{24} = D
+	\end{gathered}
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-3:3] {0};
+				\addplot[black, ultra thick, domain=-4:4] (0, x);
+				\addplot[transparent, ultra thin, domain=-3:3, name path=overxaxis] {1};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=top] {4};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softtop] {3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=bottom] {-3};
+				\addplot[transparent, ultra thin, domain=-3:3, name path=softbottom] {-2};
+				\addplot[black, ultra thick, domain=-1:1, name path = A]{3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = B]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = C]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2, name path = D]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1, name path = E]{x-3};
+				\addplot[black, ultra thick, domain=-1:0, name path = F]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1, name path = G]{-2*x-4};
+				\addplot[black, ultra thick, name path = H] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick, name path = I] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed, name path = J] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed, name path = K] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed, name path = L] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed, name path = M] coordinates{(-1, -2)(1,-2)};
+				\addplot[black, solid, name path = Y] coordinates{(-3, 3.2)(2.5, 3.2)(2.5, -4)};
+				\addplot[olive] fill between[of=B and G, soft clip = {domain=-2:-1}];
+				\addplot[olive] fill between[of=F and A, soft clip = {domain=-1:-0}];
+				\addplot[olive] fill between[of=E and A, soft clip = {domain=0:1}];
+				\addplot[olive] fill between[of=D and C, soft clip = {domain=1:2}];
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	\begin{gathered}
+		F_{\overrightarrow{\xi}} (x, y) = \\
+		\frac{1}{17}(S(D)) = \frac{17}{17} = 1\\	
+	\end{gathered}
+	\] 
+	
+	\end{enumerate}
+	\newpage
+	
+	Тоді маємо наступну функцію розподілу:
+	\[
+	F_{\overrightarrow{\xi}}(x, y) = 
+	\begin{cases}
+		0 & (x, y) \in D_0 \\
+		\frac{(x + y + 3)^2}{34}  & (x, y) \in D_1 \\
+		\frac{(y+3)^2 + 2x(y+3) - x^2}{34} & (x, y) \in D_2 \\
+		\frac{(4 + 2 x + y)^2}{68} & (x, y) \in D_3 \\
+		\frac{(2 + y)^2 + 2(1 + x) (5 + x + 2 y)}{68} & (x, y) \in D_4 \\
+		\frac{\frac{(2 + y)^2}{4} + y + \frac{5}{2}  + x (3 + y) - \frac{x^2}{2}}{17} & (x, y) \in D_5 \\
+		\frac{1 + 2(x^2-1) - 3 x^2 + x (4 + y) + \frac{(4 + y)^2}{4}}{17} & (x, y) \in D_6 \\
+		\frac{(2 + x) (2 + x + y)}{17} & (x, y) \in D_7 \\
+		\frac{2y + 2 + {(1 + x) (5 + x + 2 y)}}{34} & (x, y) \in D_8 \\
+		\frac{3x + 2y + xy - \frac{x^2}{2} + \frac{7}{2}}{17} & (x, y) \in D_9 \\
+		\frac{3y + 6 + (1 - x) (x - y - 3)}{17} & (x, y) \in D_{10} \\
+		\frac{1}{17}\left(\frac{15}{4}  + 4x + x^2 + \frac{5y}{2} + x y - \frac{y^2}{4}\right)   & (x, y) \in D_{11} \\
+		\frac{\frac{13}{4} + 3 x + \frac{x^2}{2} + \frac{5y}{2} + x y - \frac{y^2}{4}}{17} & (x, y) \in D_{12} \\
+		\frac{1}{17}\left(\frac{13}{4} + 3x - \frac{x^2}{2} + \frac{5y}{2} + x y - \frac{y^2}{4}\right) & (x, y) \in D_{13} \\
+		\frac{1}{17}\left(\frac{11}{4} + 4 x - x^2 + \frac{5 y}{2} + x y - \frac{y^2}{4}\right) & (x, y) \in D_{14}\\
+		\frac{y^2 + 6 y + 9}{17} & (x, y) \in D_{15} \\
+		\frac{1}{17}\left(\frac{y^2}{2} + 4y + 7\right) & (x, y) \in D_{16} \\
+		\frac{1}{17}\left( 4y + 7\right) & (x, y) \in D_{17} \\
+		\frac{1}{17}(2x^2 + 9x + 10) & (x, y) \in D_{18} \\
+		\frac{1}{17}(\frac{x^2}{2} + 6x + \frac{17}{2}) & (x, y) \in D_{19} \\
+		\frac{1}{17}(-\frac{x^2}{2} + 6x + \frac{17}{2}) & (x, y) \in D_{20} \\
+		\frac{1}{17}\left( 9 x - 2 x^2 + 5y - \frac{y^2}{2} -\frac{7}{2} \right)  & (x, y) \in D_{21} \\
+		\frac{1}{17}\left( \frac{13}{2} + 5y -\frac{y^2}{2} \right) & (x, y) \in D_{22} \\
+		\frac{1}{17}(7 - 2x^2 + 9x)  & (x, y) \in D_{23} \\
+		1  & (x, y) \in D_{24} \\
+	\end{cases}
+	\]
+	
+	\newpage
+	\subsection{Математичні сподівання координат та кореляційну матрицю}
+	Розрахуємо математичні сподівання:
+	\[
+	\mathbb{E}\xi_1 = \int_{-\infty}^\infty x f_{\xi_1}(x)dx = 
+	\]
+	\[
+	\frac{1}{17}\left( \int_{-2}^{-1}x(4x+9)dx + \int_{-1}^{0}x(x+6)dx + \int_{0}^{1}x(6-x)dx + \int_{1}^{2}x(-4x+9)dx \right) = 0
+	\]
+	\bigskip
+	\[
+	\mathbb{E}\xi_2 = \int_{-\infty}^\infty y f_{\xi_2}(y)dy = 
+	\]
+	\[
+	\frac{1}{17}\left( \int_{-3}^{-2} y(6+2y)dy + \int_{-2}^{0}y(y+4)dy + \int_{0}^1 4ydy + \int_1^3y(5-y)dy \right) = \frac{1}{3}
+	\]
+	Тепер розрахужмо елементи Кореляційної матриці
+	\[
+	\mathbb{E}\xi_1^2 = \int_{-\infty}^\infty x^2 f_{\xi_1}(x)dx = 
+	\]
+	\[
+	\frac{1}{17}\left( \int_{-2}^{-1}x^2(4x+9)dx + \int_{-1}^{0}x^2(x+6)dx + \int_{0}^{1}x^2(6-x)dx + \int_{1}^{2}x^2(-4x+9)dx \right) = \frac{31}{34}
+	\]
+	\bigskip
+	\[
+	\mathbb{E}\xi_2^2 = \int_{-\infty}^\infty y^2 f_{\xi_2}(y)dy = 
+	\]
+	\[
+	\frac{1}{17}\left( \int_{-3}^{-2} y^2(6+2y)dy + \int_{-2}^{0}y^2(y+4)dy + \int_{0}^1 4y^2dy + \int_1^3y^2(5-y)dy \right) = \frac{13}{6}
+	\]
+	\bigskip
+	\[
+	\mathbb{E}\xi_1\xi_2 = \iint_{\mathbb{R}^2}xyf_{\overrightarrow{\xi}}(x, y) dxdy = 
+	\]
+	\[
+		\frac{1}{17} \left( \int_{-2}^{-1}xdx\int_{-2x-4}^{2x+5}ydy + \int_{-1}^0xdx\int_{-x-3}^3 ydy + \int_0^1xdx\int_{x-3}^3ydy + \int_1^2xdx\int_{2x-4}^{5-2x}ydy \right) = 
+	\]
+	\[
+	\frac{1}{17}\left(-\frac{25}{12} - \frac{7}{8} + \frac{7}{8} + \frac{25}{12} \right) = 0
+	\]
+	Звідси маємо:
+	\[
+	\mathbb{D}\xi_1 = \mathbb{E}\xi_1^2 - (\mathbb{E}\xi_1)^2 =  \frac{31}{34}
+	\]
+	\[
+	\mathbb{D}\xi_2 = \mathbb{E}\xi_2^2 - (\mathbb{E}\xi_2)^2 = \frac{13}{6} - \frac{1}{9} = \frac{37}{18}
+	\]
+	\[
+	cov(\xi_1, \xi_2) = \mathbb{E}\xi_1\xi_2 - \mathbb{E}\xi_1\mathbb{E}\xi_2 = 0 - 0 = 0
+	\]
+	Тепер можемо записати  коваріаційну матрицю:
+	\[
+	\mathfrak{C}_{\overrightarrow{\xi}} = 
+	\begin{pmatrix}
+		\frac{31}{34} & 0 \\
+		0 & \frac{37}{18} 
+	\end{pmatrix}
+	\]
+	\subsection{Умовні щільності розподілу для кожної координати}
+	Маємо:
+	$$
+	f_{\overrightarrow{\xi}}(x, y) = 
+	=
+	\begin{cases}
+		\frac{1}{17} & (x,y) \in D \\
+		0 &  (x,y) \notin D
+	\end{cases}
+	$$ 
+	
+		$$f_{\xi_1}(x) = 
+	\begin{cases}
+		0 & x \leq -2 \\
+		  \frac{1}{17} (4x+9) & -2 < x \leq -1 \\
+		  \frac{1}{17} (x + 6) & -1 < x \leq 0 \\
+		  \frac{1}{17} (6-x) & 0 < x \leq 1 \\
+		  \frac{1}{17} (9-4x) & 1 < x \leq 2 \\
+		0 & x > 2 \\
+	\end{cases}$$
+	$$f_{\xi_2}(y) = 
+	\begin{cases}
+		0 & y \leq -3 \\
+		\frac{1}{17}(6+2y) & -3 < y \leq -2 \\
+		\frac{1}{17}(y+4) & -2 < y \leq 0 \\
+		\frac{4}{17} & 0 < y \leq 1 \\
+		\frac{1}{17}(5-y) & 1 < y \leq 3 \\
+		0 & y > 3 \\
+	\end{cases}
+	$$
+	
+	Звідси:
+	
+	\[
+		f_{\xi_1\vert \xi_2}(x\vert y) = \frac{f_{\overrightarrow{\xi}}(x, y)}{f_{\xi_2}(y)} = 
+		\begin{cases}
+			0 & y \leq -3 \\
+			\frac{1}{6+2y} & -3 < y \leq -2, x \in \left[ -y-3, y+3 \right] \\
+			0 & -3 < y \leq -2, x \notin \left[ -y-3, y+3 \right] \\
+			\frac{1}{y+4} & -2 < y \leq 0, x \in [-\frac{y}{2}-2, \frac{y}{2} + 2] \\
+			0 & -2 < y \leq 0, x \notin [-\frac{y}{2}-2, \frac{y}{2} + 2] \\
+			\frac{1}{4} & 0 < y \leq 1, x \in [-2, 2] \\
+			0 & 0 < y \leq 1, x \notin [-2, 2] \\
+			\frac{1}{5-y} & 1 < y \leq 3 x \in [-2.5 + \frac{y}{2}, 2.5 - \frac{y}{2}] \\
+			0 & 1 < y \leq 3 x \notin [-2.5 + \frac{y}{2}, 2.5 - \frac{y}{2}]\\
+			0 & y > 3\\
+		\end{cases}
+	\]
+	
+	\[
+		f_{\xi_2\vert \xi_1}(y\vert x) = \frac{f_{\overrightarrow{\xi}}(x, y)}{f_{\xi_1}(x)} = 
+		\begin{cases}
+			0 & x \leq -2 \\
+			\frac{1}{4x+9} & -2 < x \leq -1, y \in [-2x-4, 2x+5] \\
+			0 & -2 < x \leq -1, y \notin [-2x-4, 2x+5] \\
+			\frac{1}{x+6} & -1 < x \leq 0, y \in [-x -3, 3] \\
+			0 & -1 < x \leq 0, y \notin [-x -3, 3] \\
+			\frac{1}{6-x} & 0 < x \leq 1, y \in [x - 3, 3] \\
+			0 &  0 < x \leq 1, y \notin [x - 3, 3] \\
+			\frac{1}{9-4x} & 1 < x \leq 2, y \in [2x-4, -2x+5] \\
+			0 &  1 < x \leq 2, y \notin [2x-4, -2x+5] \\
+			0 & x > 2 \\		
+		\end{cases}
+	\]
+	Перевіримо умову нормування:
+	\[
+	\int_{-y-3}^{y+3} \frac{dx}{6+2y} = \int_{-\frac{y}{2}-2}^{\frac{y}{2}+2} \frac{dx}{y+4} = 
+	\int_{-2}^2 \frac{dx}{4} = \int_{-2.5 + \frac{y}{2}}^{ 2.5 - \frac{y}{2}} \frac{dx}{5-y} = 1
+	\]
+	\bigskip
+	\[
+	\int_{-2x-4}^{2x+5} \frac{dy}{4x+9} = \int{-x-3}{3}\frac{dy}{x+6} = \int_{x-3}^3\frac{dy}{-x+6} = 
+	= \int_{2x-4}^{5-2x}\frac{dy}{9-4x} = 1
+	\]
+	\subsection{Умовні математичні сподівання для кожної координати з перевіркою}
+	
+	Маємо наступні формули 
+	\[
+		\begin{cases}
+		\mathbb{E} (\xi_2\vert \xi_1=x) = \int_{-\infty}^{\infty} y f_{\xi_2\vert \xi_1}(y\vert x) dy \\
+		\mathbb{E}(\xi_1 \vert \xi_2=y) = \int_{-\infty}^{\infty} x	f_{\xi_1\vert \xi_2}(x\vert y) dx \\
+		\end{cases}
+	\]
+	
+	\[
+		\mathbb{E} (\xi_2\vert \xi_1=x) = 
+		\begin{cases}
+			0 & x \leq -2 \\
+			\int_{-2x-4}^{2x+5} \frac{ydy}{4x+9} = \frac{1}{2} & -2 < x \leq -1 \\
+			\int_{-x-3}^{3} \frac{ydy}{x+6} = -\frac{x}{2} & -1 < x \leq 0 \\
+			\int_{x-3}^{3} \frac{ydy}{6-x} = \frac{x}{2} & 0 < x \leq 1 \\
+			\int_{2x-4}^{-2x+5} \frac{ydy}{9-4x} = \frac{1}{2} & 1 < x \leq 2 \\
+			0 & x > 2 \\
+		\end{cases}
+	\]
+	Лінію матсподівання можна побачини на наступному малюнку:
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-1:1]{3};
+				\addplot[black, ultra thick, domain=-2:-1]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1]{x-3};
+				\addplot[black, ultra thick, domain=-1:0]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1]{-2*x-4};
+				\addplot[black, ultra thick] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed] coordinates{(-1, -2)(1,-2)};
+				\addplot[red, ultra thick, domain = -2:-1] {0.5};
+				\addplot[red, ultra thick, domain = -1:0] {-x/2};
+				\addplot[red, ultra thick, domain = 0:1] {x/2};
+				\addplot[red, ultra thick, domain = 1:2] {0.5};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+	Порахуємо аналогічно $\mathbb{E}(\xi_1 \vert \xi_2=y)$
+	
+	\[
+		\mathbb{E}(\xi_1 \vert \xi_2=y) = 
+		\begin{cases}
+			0 & y \leq -3 \\
+			\int_{-y-3}^{y+3} \frac{xdx}{6+2y} = 0  & -3 < y \leq -2 \\
+			\int_{-\frac{y}{2} - 2}^{\frac{y}{2} + 2} \frac{xdx}{y+4} =0  &  -2 < y \leq 0 \\
+			\int_{-2}^{2}\frac{xdx}{4} = 0 &  0< y \leq 1 \\
+			\int_{-2.5+\frac{y}{2}}^{-2.5+\frac{y}{2}} \frac{xdx}{5-y} = 0 &  1 < y \leq 3 \\
+			0 & y > 3 \\
+		\end{cases} = 0 \thickspace \forall y \in \mathbb{R}	
+	\]
+	
+	Лінію матсподівання можна побачини на наступному малюнку:
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 225,
+				height=300,
+				ymin=-3.5,
+				ymax=3.5,
+				xmin=-2.9,
+				xmax=2.9,
+				ytick distance=1,
+				xtick distance=1,
+				axis lines= center,
+				xlabel = $X$,
+				ylabel= $Y$,
+				]
+				\addplot[black, ultra thick, domain=-1:1]{3};
+				\addplot[black, ultra thick, domain=-2:-1]{2*x+5};
+				\addplot[black, ultra thick, domain=1:2]{-2*x+5};
+				\addplot[black, ultra thick, domain=1:2]{2*x-4};
+				\addplot[black, ultra thick, domain=0:1]{x-3};
+				\addplot[black, ultra thick, domain=-1:0]{-x-3};
+				\addplot[black, ultra thick, domain=-2:-1]{-2*x-4};
+				\addplot[black, ultra thick] coordinates{(2, 1)(2,0)};
+				\addplot[black, ultra thick] coordinates{(-2, 1)(-2,0)};
+				\addplot[black, dashed] coordinates{(1, 3)(1,-2)};
+				\addplot[black, dashed] coordinates{(-1, 3)(-1,-2)};
+				\addplot[black, dashed] coordinates{(-2, 1)(2,1)};
+				\addplot[black, dashed] coordinates{(-1, -2)(1,-2)};
+				\addplot[red, ultra thick, domain = -3:3] (0, x);
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	Розглянемо наступні вип. величини 
+	
+	\[
+	\mathbb{E}(\xi_1 \vert \xi_2) = 0
+	\]
+	\[
+	\mathbb{E}(\xi_2 \vert \xi_1) = 
+	\begin{cases}
+		0 & \xi_1 \leq -2 \\
+		\frac{1}{2} & -2 < \xi_1 \leq -1 \\
+		-\frac{\xi_1}{2} & -1 < \xi_1 \leq 0 \\
+		\frac{\xi_1}{2} & 0 < \xi_1 \leq 1 \\
+		\frac{1}{2} & 1 < \xi_1 \leq 2 \\
+		0 & \xi_1 > 2 \\
+	\end{cases}
+	\]
+	Зробимо перевірку, порахуємо повне матсподівання: 
+	
+	\[
+	\mathbb{E}(\mathbb{E}(\xi_1 \vert \xi_2)) = \mathbb{E}(0) = 0 = \mathbb{E}\xi_1
+	\]
+	\[
+	\begin{gathered}
+	\mathbb{E} (\mathbb{E}(\xi_2 \vert \xi_1)) = \int_{-\infty}^{\infty}\mathbb{E}(\xi_2\vert \xi_1 = x) f_{\xi_1} (x) dx = \\
+	 \int_{-2}^{-1} \frac{1}{2} \frac{4x+9}{17}  dx + \int_{-1}^{0} \frac{-x}{2}\frac{x+6}{17} dx + \int_0^1 \frac{x}{2}\frac{-x+6}{17} dx + \int_{1}^{2} \frac{1}{2} \frac{9-4x}{17} dx = \\ \frac{3}{34} + \frac{4}{51} + \frac{4}{51} + \frac{3}{34} = \frac{1}{3} = \mathbb{E}\xi_2 \\
+	\end{gathered}
+	\]
+	
+\end{document}
